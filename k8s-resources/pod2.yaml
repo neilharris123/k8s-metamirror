@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    neiltest: "true"
+  labels:
+    run: test
+    #neil_test_label_added: test
+  name: test
+  namespace: default
+spec:
+  containers:
+  - image: nginx
+    imagePullPolicy: Always
+    name: test

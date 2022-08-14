@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: operator
+  name: operator
+  namespace: default
+spec:
+  serviceAccountName: controller-manager
+  containers:
+  - image: neilharris123/k8s-metamirror:v14
+    imagePullPolicy: Never
+    name: operator
+    env:
+    - name: ANNOTATION
+      #value: 'neiltest: neiltest'
+      value: "neiltest"
+    - name:  LABEL
+      value: "neil_test_label_added"
