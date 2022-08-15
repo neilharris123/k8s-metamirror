@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    neiltest: "true"
+    neiltest: "somethingelse"
   labels:
     run: test
     #neil_test_label_added: test

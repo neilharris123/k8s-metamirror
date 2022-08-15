@@ -71,22 +71,22 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	   Step 1: Add or remove the label.
 	*/
 
-	labelShouldBePresent := pod.Annotations[config.Metadata.Annotation] != ""
-	labelIsPresent := pod.Labels[config.Metadata.Label] == pod.Name
+  _, targetAnnotation := pod.Annotations[config.Metadata.Annotation]
+	targetLabel := pod.Labels[config.Metadata.Label] == pod.Name
 
 
-	if labelShouldBePresent == labelIsPresent {
+	if targetAnnotation == targetLabel {
 		// The desired state and actual state of the Pod are the same.
 		// No further action is required by the operator at this moment.
 		log.Info("no update required")
-    log.Info("result of labelShouldBePresent is")
-    log.Info(strconv.FormatBool(labelShouldBePresent))
-    log.Info("result of labelIsPresent is")
-    log.Info(strconv.FormatBool(labelIsPresent))
+    log.Info("result of targetAnnotation is")
+    log.Info(strconv.FormatBool(targetAnnotation))
+    log.Info("result of targetLabel is")
+    log.Info(strconv.FormatBool(targetLabel))
 		return ctrl.Result{}, nil
 	}
 
-	if labelShouldBePresent {
+	if targetAnnotation {
 		// If the label should be set but is not, set it.
 		if pod.Labels == nil {
 			pod.Labels = make(map[string]string)
