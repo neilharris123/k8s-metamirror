@@ -8,7 +8,7 @@ metadata:
 spec:
   serviceAccountName: controller-manager
   containers:
-  - image: neilharris123/k8s-metamirror:v16
+  - image: neilharris123/k8s-metamirror:v18
     imagePullPolicy: Never
     name: operator
     env:

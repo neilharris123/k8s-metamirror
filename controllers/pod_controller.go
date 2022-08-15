@@ -1,19 +1,3 @@
-/*
-Copyright 2022.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package controllers
 
 import (
@@ -26,7 +10,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
   "github.com/neilharris123/k8s-metamirror/config"
-  "strconv"
 )
 
 // PodReconciler reconciles a Pod object
@@ -72,17 +55,13 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	*/
 
   _, targetAnnotation := pod.Annotations[config.Metadata.Annotation]
-	targetLabel := pod.Labels[config.Metadata.Label] == pod.Name
+  targetLabel := pod.Labels[config.Metadata.Label] == pod.Annotations[config.Metadata.Annotation]
 
 
-	if targetAnnotation == targetLabel {
+  if targetAnnotation == targetLabel {
 		// The desired state and actual state of the Pod are the same.
 		// No further action is required by the operator at this moment.
 		log.Info("no update required")
-    log.Info("result of targetAnnotation is")
-    log.Info(strconv.FormatBool(targetAnnotation))
-    log.Info("result of targetLabel is")
-    log.Info(strconv.FormatBool(targetLabel))
 		return ctrl.Result{}, nil
 	}
 
@@ -91,7 +70,7 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 		if pod.Labels == nil {
 			pod.Labels = make(map[string]string)
 		}
-		pod.Labels[config.Metadata.Label] = pod.Name
+		pod.Labels[config.Metadata.Label] = pod.Annotations[config.Metadata.Annotation]
 		log.Info("adding label")
 	}
 
