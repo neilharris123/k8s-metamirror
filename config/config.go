@@ -6,12 +6,12 @@ import (
 )
 
 var Metadata struct {
-    annotation  string `envconfig:"annotation"`
-    label       string `envconfig:"label"`
+    Annotation  string `envconfig:"annotation"`
+    Label       string `envconfig:"label"`
 }
 
 func init() {
-  err := envconfig.Process("", &Metadata)
+  err := envconfig.Process("mm", &Metadata)
   if err != nil {
     log.Fatal(err)
   }
