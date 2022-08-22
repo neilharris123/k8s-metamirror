@@ -1,0 +1,53 @@
+# Default values for metamirror.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+controller:
+  # controller.leaderElection -- Enable leader election when running multiple controller pods
+  leaderElection: false
+  # controller.mmAnnotation -- An annotation key present in other pod(s). The operator will copy the corresponding annotation value.
+  mmAnnotations: ""
+  # controller.mmLabel -- the label name to be added to pod(s). The value of the label will be that of the copied annotation value.
+  mmLabel: ""
+
+image:
+  registry: docker.io
+  repository: neilharris123/k8s-metamirror
+  pullPolicy: IfNotPresent
+  tag: v0.0.1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+podAnnotations: {}
+
+env:
+  MM_ANNOTATION: ""
+  MM_LABEL: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
