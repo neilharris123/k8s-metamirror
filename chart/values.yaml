@@ -14,7 +14,7 @@ controller:
 
 image:
   registry: docker.io
-  repository: neilharris123/k8s-metamirror
+  repository: neilharris123/metamirror
   pullPolicy: IfNotPresent
   tag: v0.0.1
 

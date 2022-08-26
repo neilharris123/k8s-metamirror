@@ -9,7 +9,7 @@ import (
   "k8s.io/apimachinery/pkg/runtime"
   ctrl "sigs.k8s.io/controller-runtime"
   "sigs.k8s.io/controller-runtime/pkg/client"
-  "github.com/neilharris123/k8s-metamirror/config"
+  "github.com/neilharris123/metamirror/config"
 )
 
 // PodReconciler reconciles a Pod object

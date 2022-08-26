@@ -1,10 +1,10 @@
-# k8s-metamirror
+# metamirror
 
 A Kubernetes operator to synchronize selected annotation and label values in running Pods.
 
 ## Usage
 
-The operator requires `get`, `list`, `patch`, `update` and `watch` permissions on Pods cluster wide. Minimal RBAC resource and operator manifests can be found in [k8s-resources](https://github.com/neilharris123/k8s-metamirror/tree/main/k8s-resources).
+The operator requires `get`, `list`, `patch`, `update` and `watch` permissions on Pods cluster wide. Minimal RBAC resource and operator manifests can be found in [k8s-resources](https://github.com/neilharris123/metamirror/tree/main/k8s-resources).
 
 Set the required environment variables in the metamirror-operator pod:
 

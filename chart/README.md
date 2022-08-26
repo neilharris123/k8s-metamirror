@@ -1,4 +1,4 @@
-# k8s-metamirror
+# metamirror
 
 ![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
@@ -6,7 +6,7 @@ A Kubernetes operator to synchronize selected annotation and label values in run
 
 ## Source Code
 
-* <https://github.com/neilharris123/k8s-metamirror>
+* <https://github.com/neilharris123/metamirror>
 
 ## Values
 
@@ -20,7 +20,7 @@ A Kubernetes operator to synchronize selected annotation and label values in run
 | controller.mmLabel | string | `""` |  The label name to be added to pod(s) that contain mmAnnotation. The operator will add the copied annotation value as the labels value. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"neilharris123/k8s-metamirror"` |  |
+| image.repository | string | `"neilharris123/metamirror"` |  |
 | image.tag | string | `v0.0.1` |  |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |

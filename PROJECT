@@ -4,8 +4,8 @@ layout:
 plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
-projectName: k8s-metamirror
-repo: github.com/neilharris123/k8s-metamirror
+projectName: metamirror
+repo: github.com/neilharris123/metamirror
 resources:
 - controller: true
   group: core
