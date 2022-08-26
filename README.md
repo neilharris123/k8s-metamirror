@@ -14,7 +14,7 @@ Set the required environment variables in the metamirror-operator pod:
   - name: MM_ANNOTATION
     value: "example/annotation" # an annotation key present in other pod(s). The operator will copy the corresponding annotation value.
   - name: MM_LABEL
-    value: "examplelabel"       # the label name to be added to pod(s) with the "example/annotation" annotation. The value of the label will be that of the copied annotation value.
+    value: "examplelabel"       # the label name to be added to pod(s). The value of the label will be that of the copied annotation value.
 ```
 
 Deploy a seperate pod with the relevent annotation key and an arbitary value:
