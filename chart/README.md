@@ -14,7 +14,10 @@ A Kubernetes operator to synchronize selected annotation and label values in run
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
   autoscaling.enabled | bool | `false` |
+| container.extraEnvs | object | `{}` | Additional environment variables |
 | controller.leaderElection | bool | `false` | Enable leader election for running multiple controller pods |
+| controller.mmAnnotation | string | `""` | The annotation key present in other pod(s). The operator will copy the corresponding annotation value. |
+| controller.mmLabel | string | `""` |  The label name to be added to pod(s) that contain mmAnnotation. The operator will add the copied annotation value as the labels value. |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"neilharris123/metamirror"` |  |
