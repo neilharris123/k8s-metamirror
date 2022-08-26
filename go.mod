@@ -1,4 +1,4 @@
-module github.com/neilharris123/k8s-metamirror
+module github.com/neilharris123/metamirror
 
 go 1.18
 

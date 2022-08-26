@@ -7,7 +7,7 @@ metadata:
 spec:
   serviceAccountName: metamirror-operator
   containers:
-  - image: neilharris123/k8s-metamirror:v0.0.1
+  - image: neilharris123/metamirror:v0.0.1
     imagePullPolicy: Always
     name: metamirror
     env:

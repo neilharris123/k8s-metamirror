@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/neilharris123/k8s-metamirror/controllers"
+	"github.com/neilharris123/metamirror/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
