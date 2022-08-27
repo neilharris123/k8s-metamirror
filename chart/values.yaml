@@ -8,7 +8,7 @@ controller:
   # controller.leaderElection -- Enable leader election when running multiple controller pods
   leaderElection: false
   # controller.mmAnnotation -- An annotation key present in other pod(s). The operator will copy the corresponding annotation value.
-  mmAnnotations: ""
+  mmAnnotation: ""
   # controller.mmLabel -- the label name to be added to pod(s). The value of the label will be that of the copied annotation value.
   mmLabel: ""
 
