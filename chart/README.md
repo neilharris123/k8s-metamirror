@@ -4,9 +4,58 @@
 
 A Kubernetes operator to synchronize selected annotation and label values in running Pods.
 
-## Source Code
+## Usage
 
-* <https://github.com/neilharris123/metamirror>
+1. Add the helm repository:
+
+```Bash
+helm repo add metamirror https://neilharris123.github.io/metamirror-helm/
+```
+
+2. Set the required `MM_ANNOTATION` and `MM_LABEL` environment variables in the metamirror-operator pod (these can be managed through `controller.mmAnnotation` and `controller.mmLabel` in the `values.yaml`):
+
+
+```Bash
+...
+controller:
+# controller.mmAnnotation -- represents an annotation key present in other pod(s). The operator will copy the corresponding annotation value.
+  mmAnnotation: "example/annotation"
+# controller.mmLabel -- the label name to be added to pod(s) with the above annotation. The value of the label will be that of the copied annotation value.
+  mmLabel: "examplelabel"
+```
+
+Alternatively, set these when installing the chart:
+
+```Bash
+helm install my-metamirror metamirror/metamirror -set controller.mmAnnotation=example/annotation --set controller.mmLabel=examplelabel
+```
+
+3. Test the operator by deploying a seperate pod with the relevent annotation key and an arbitary value:
+
+```Bash
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    example/annotation: "foo"
+  labels: {}
+  name: test
+spec:
+  containers:
+  - image: alpine:3.16
+    imagePullPolicy: Always
+    name: test
+```
+
+### Results
+
+The operator adds a label to the new pod with the relevent values:
+```Bash
+kubectl get pod test --show-labels
+
+NAME   READY   STATUS    RESTARTS   AGE   LABELS
+test   1/1     Running   0          12s   examplelabel=foo
+```
 
 ## Values
 
