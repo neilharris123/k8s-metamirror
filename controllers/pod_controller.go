@@ -37,6 +37,14 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
   }
 
   /*
+     Step 1a: Ensure annotation and label lists are of equal length
+  */
+  reqAnnotations := config.Metadata.Annotations
+  reqLabels := config.Metadata.Labels
+  if len(reqAnnotations) != len(reqLabels) {
+    log.Error(err, "Illegal config, variable lists are of unequal length")
+  }
+  /*
      Step 1: Add the label if the annotation exists, but the label does not
   */
 
