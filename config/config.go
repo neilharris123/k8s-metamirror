@@ -6,8 +6,8 @@ import (
 )
 
 var Metadata struct {
-    Annotation  string `envconfig:"annotation"`
-    Label       string `envconfig:"label"`
+    Annotations  string `envconfig:"annotations"`
+    Labels       string `envconfig:"labels"`
 }
 
 func init() {

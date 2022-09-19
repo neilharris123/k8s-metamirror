@@ -40,6 +40,7 @@ spec:
   containers:
   - image: alpine:3.16
     imagePullPolicy: Always
+    command: ["/bin/sh", "-ec", "sleep 1000"]
     name: test
 ```
 

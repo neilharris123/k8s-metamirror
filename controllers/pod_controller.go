@@ -2,7 +2,7 @@ package controllers
 
 import (
   "context"
-
+  "strings"
   "github.com/go-logr/logr"
   corev1 "k8s.io/api/core/v1"
   apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -39,33 +39,35 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
   /*
      Step 1a: Ensure annotation and label lists are of equal length
   */
-  reqAnnotations := config.Metadata.Annotations
-  reqLabels := config.Metadata.Labels
+  reqAnnotations := strings.Split(config.Metadata.Annotations, ",")
+  reqLabels := strings.Split(config.Metadata.Labels, ",")
   if len(reqAnnotations) != len(reqLabels) {
-    log.Error(err, "Illegal config, variable lists are of unequal length")
+    log.Info("Illegal config, variable lists are of unequal length")
   }
   /*
      Step 1: Add the label if the annotation exists, but the label does not
   */
 
-  _, targetAnnotation := pod.Annotations[config.Metadata.Annotation]
-  targetLabel := pod.Labels[config.Metadata.Label] == pod.Annotations[config.Metadata.Annotation]
+  for i, arg := range reqAnnotations {
+    _, targetAnnotation := pod.Annotations[string(arg)]
+    targetLabel := pod.Labels[string(reqLabels[i])] == string(arg)
 
 
-  if targetAnnotation == targetLabel {
+    if targetAnnotation == targetLabel {
     // The desired state and actual state of the Pod are the same.
     // No further action is required by the operator at this moment.
-    log.Info("no update required")
-    return ctrl.Result{}, nil
-  }
-
-  if targetAnnotation {
-    // If the label should be set but is not, set it.
-    if pod.Labels == nil {
-      pod.Labels = make(map[string]string)
+      log.Info("no update required")
+      continue
     }
-    pod.Labels[config.Metadata.Label] = pod.Annotations[config.Metadata.Annotation]
-    log.Info("adding label")
+
+    if targetAnnotation {
+    // If the label should be set but is not, set it.
+      if pod.Labels == nil {
+        pod.Labels = make(map[string]string)
+      }
+      pod.Labels[string(reqLabels[i])] = pod.Annotations[string(arg)]
+      log.Info("adding label")
+    }
   }
 
   /*
