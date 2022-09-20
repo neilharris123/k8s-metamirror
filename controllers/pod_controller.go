@@ -37,15 +37,17 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
   }
 
   /*
-     Step 1a: Ensure annotation and label lists are of equal length
+     Step 1: Ensure annotation and label lists are of equal length
   */
   reqAnnotations := strings.Split(config.Metadata.Annotations, ",")
   reqLabels := strings.Split(config.Metadata.Labels, ",")
+
   if len(reqAnnotations) != len(reqLabels) {
-    log.Info("Illegal config, variable lists are of unequal length")
+    panic("Illegal config, variable lists are of unequal length. Exiting")
   }
+
   /*
-     Step 1: Add the label if the annotation exists, but the label does not
+     Step 2: Add the label if the annotation exists, but the label does not
   */
 
   for i, arg := range reqAnnotations {
@@ -54,24 +56,22 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 
 
     if targetAnnotation == targetLabel {
-    // The desired state and actual state of the Pod are the same.
-    // No further action is required by the operator at this moment.
       log.Info("no update required")
       continue
     }
 
-    if targetAnnotation {
     // If the label should be set but is not, set it.
+    if targetAnnotation {
       if pod.Labels == nil {
         pod.Labels = make(map[string]string)
       }
       pod.Labels[string(reqLabels[i])] = pod.Annotations[string(arg)]
-      log.Info("adding label")
+      log.Info("adding label" + string(reqLabels[i]))
     }
   }
 
   /*
-     Step 2: Push the updated pod to the Kubernetes API.
+     Step 3: Push the updated pod to the Kubernetes API.
   */
 
   if err := r.Update(ctx, &pod); err != nil {
