@@ -52,7 +52,7 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 
   for i, arg := range reqAnnotations {
     _, targetAnnotation := pod.Annotations[string(arg)]
-    targetLabel := pod.Labels[string(reqLabels[i])] == string(arg)
+    targetLabel := pod.Labels[string(reqLabels[i])] == pod.Annotations[string(arg)]
 
 
     if targetAnnotation == targetLabel {
@@ -66,7 +66,7 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
         pod.Labels = make(map[string]string)
       }
       pod.Labels[string(reqLabels[i])] = pod.Annotations[string(arg)]
-      log.Info("adding label" + string(reqLabels[i]))
+      log.Info("adding label " + string(reqLabels[i]))
     }
   }
 
