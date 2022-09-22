@@ -2,7 +2,7 @@ package controllers
 
 import (
   "context"
-
+  "strings"
   "github.com/go-logr/logr"
   corev1 "k8s.io/api/core/v1"
   apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -37,36 +37,46 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
   }
 
   /*
-     Step 1: Add the label if the annotation exists, but the label does not
+     Step 1: Ensure annotation and label lists are of equal length
   */
+  reqAnnotations := strings.Split(config.Metadata.Annotations, ",")
+  reqLabels := strings.Split(config.Metadata.Labels, ",")
 
-  _, targetAnnotation := pod.Annotations[config.Metadata.Annotation]
-  targetLabel := pod.Labels[config.Metadata.Label] == pod.Annotations[config.Metadata.Annotation]
-
-
-  if targetAnnotation == targetLabel {
-    // The desired state and actual state of the Pod are the same.
-    // No further action is required by the operator at this moment.
-    log.Info("no update required")
-    return ctrl.Result{}, nil
-  }
-
-  if targetAnnotation {
-    // If the label should be set but is not, set it.
-    if pod.Labels == nil {
-      pod.Labels = make(map[string]string)
-    }
-    pod.Labels[config.Metadata.Label] = pod.Annotations[config.Metadata.Annotation]
-    log.Info("adding label")
+  if len(reqAnnotations) != len(reqLabels) {
+    panic("Illegal config, variable lists are of unequal length. Exiting")
   }
 
   /*
-     Step 2: Push the updated pod to the Kubernetes API.
+     Step 2: Add the label if the annotation exists, but the label does not
+  */
+
+  for i, arg := range reqAnnotations {
+    _, targetAnnotation := pod.Annotations[string(arg)]
+    targetLabel := pod.Labels[string(reqLabels[i])] == pod.Annotations[string(arg)]
+
+
+    if targetAnnotation == targetLabel {
+      log.Info("no update required")
+      continue
+    }
+
+    // If the label should be set but is not, set it.
+    if targetAnnotation {
+      if pod.Labels == nil {
+        pod.Labels = make(map[string]string)
+      }
+      pod.Labels[string(reqLabels[i])] = pod.Annotations[string(arg)]
+      log.Info("adding label " + string(reqLabels[i]))
+    }
+  }
+
+  /*
+     Step 3: Push the updated pod to the Kubernetes API.
   */
 
   if err := r.Update(ctx, &pod); err != nil {
     if apierrors.IsConflict(err) {
-      // If the Pod has been by another process since we read it.
+      // If the Pod has been updated by another process since we read it.
       // Requeue the Pod to try to reconciliate again.
       return ctrl.Result{Requeue: true}, nil
     }
