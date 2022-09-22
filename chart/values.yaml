@@ -32,8 +32,8 @@ serviceAccount:
 podAnnotations: {}
 
 env:
-  MM_ANNOTATION: ""
-  MM_LABEL: ""
+  MM_ANNOTATIONS: ""
+  MM_LABELS: ""
 
 podSecurityContext: {}
   # fsGroup: 2000

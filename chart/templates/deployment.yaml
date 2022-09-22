@@ -36,10 +36,10 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           env:
-            - name: MM_ANNOTATION
-              value: {{ .Values.controller.mmAnnotation }}
-            - name: MM_LABEL
-              value: {{ .Values.controller.mmLabel }}
+            - name: MM_ANNOTATIONS
+              value: {{ .Values.controller.mmAnnotations }}
+            - name: MM_LABELS
+              value: {{ .Values.controller.mmLabels }}
           {{- range $key, $value := .Values.container.extraEnvs }}
             - name: "{{ $key }}"
               value: "{{ $value }}"
