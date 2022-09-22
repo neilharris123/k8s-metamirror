@@ -27,7 +27,7 @@ controller:
 Alternatively, set these when installing the chart:
 
 ```Bash
-helm install my-metamirror metamirror/metamirror -set controller.mmAnnotations=environment/annotation --set controller.mmLabels=environment
+helm install my-metamirror metamirror/metamirror --set controller.mmAnnotations=environment/annotation --set controller.mmLabels=environment
 ```
 
 3. Test the operator by deploying a seperate pod with the relevent annotation key and any values of interest:
