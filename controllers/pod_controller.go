@@ -76,7 +76,7 @@ func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 
   if err := r.Update(ctx, &pod); err != nil {
     if apierrors.IsConflict(err) {
-      // If the Pod has been by another process since we read it.
+      // If the Pod has been updated by another process since we read it.
       // Requeue the Pod to try to reconciliate again.
       return ctrl.Result{Requeue: true}, nil
     }

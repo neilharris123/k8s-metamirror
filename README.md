@@ -8,7 +8,7 @@ This quickstart uses individual yaml files. If you would prefer to install and c
 
 Navigate to the [k8s-resources](https://github.com/neilharris123/metamirror/tree/main/k8s-resources) directory where minimal RBAC and pod manifests are located.
 
-Set the required environment variables in the metamirror-operator [Pod](https://github.com/neilharris123/metamirror/blob/main/k8s-resources/metamirror-operator.yaml) manifest. Multiple values should be seperated by a single comma, with no whitespace. The order of the values for MM_ANNOTATIONS and MM_LABELS matters, as they are converted into ordered slices, and the operator modifies values based on the order of the index. For example, the value of annotation in position [0] is added to as the value of label in position [0]. For this reason, The number of annotation and label values added to the env vars must be equal, otherwise the config is deemed invalid, and the controller will panic and exit:
+Set the MM_ANNOTATIONS and MM_LABELS environment variables for the metamirror-operator [Pod](https://github.com/neilharris123/metamirror/blob/main/k8s-resources/metamirror-operator.yaml). Multiple values should be seperated by a single comma, with no whitespace. The order matters, as the values are converted into slices, and the operator modifies values based on their index position. For example, the value of annotation in position [0] is added as the value of the label in position [0]. For this reason, The number of annotation and label values added to the env vars must be equal, otherwise the config is invalid, and the controller will panic and exit:
 
 ```Bash
 ...
@@ -26,7 +26,7 @@ kubectl create -f clusterrole.yaml -f clusterrolebinding.yaml -f metamirror-oper
 
 ## Testing
 
-Deploy a seperate pod with the relevent annotation key(s) and an arbitary value:
+Deploy a seperate pod with the relevent annotation(s):
 
 ```Bash
 apiVersion: v1
@@ -47,7 +47,7 @@ spec:
 
 ## Results
 
-The operator adds a label to the new Pod with the relevent values:
+The operator adds labels to the new Pod with the relevent values:
 ```Bash
 kubectl get pod test --show-labels
 
