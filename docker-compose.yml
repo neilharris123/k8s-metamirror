@@ -1,0 +1,48 @@
+x-lagoon-project:
+  # Lagoon project name (leave `&lagoon-project` when you edit this)
+  &lagoon-project drupal-example
+
+x-volumes:
+  &default-volumes
+    # Define all volumes you would like to have real-time mounted into the docker containers
+    volumes:
+      - .:/app:delegated
+
+x-environment:
+  &default-environment
+    LAGOON_PROJECT: *lagoon-project
+    # Route that should be used locally, if you are using pygmy, this route *must* end with .docker.amazee.io
+    LAGOON_ROUTE: http://drupal-example.docker.amazee.io
+    # Uncomment if you want to have the system behave as it will in production
+    #LAGOON_ENVIRONMENT_TYPE: production
+    # Uncomment to enable Xdebug and then restart via `docker compose up -d`
+    #XDEBUG_ENABLE: "true"
+
+x-user:
+  &default-user
+    # The default user under which the containers should run. Change this if you are on linux and run with another user than ID `1000`
+    user: '1000'
+
+services:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    labels:
+      lagoon.type: nginx-php-persistent # (1)
+      lagoon.persistent: /app/web/sites/default/files/
+
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    labels:
+      lagoon.type: nginx-php-persistent # (2)
+      lagoon.name: nginx
+      lagoon.persistent: /app/web/sites/default/files/
+
+  mariadb:
+    image: uselagoon/mariadb-10.11-drupal
+    labels:
+      lagoon.type: mariadb
