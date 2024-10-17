@@ -6,12 +6,6 @@ x-lagoon-project:
 x-environment:
   &default-environment
     LAGOON_PROJECT: *lagoon-project
-    # Route that should be used locally, if you are using pygmy, this route *must* end with .docker.amazee.io
-    LAGOON_ROUTE: http://drupal-example.docker.amazee.io
-    # Uncomment if you want to have the system behave as it will in production
-    #LAGOON_ENVIRONMENT_TYPE: production
-    # Uncomment to enable Xdebug and then restart via `docker compose up -d`
-    #XDEBUG_ENABLE: "true"
 
 x-user:
   &default-user
