@@ -17,27 +17,3 @@ tasks:
         service: cli
         shell: bash
 
-routes:
-  autogenerate:
-    insecure: Redirect
-
-environments:
-  main:
-    routes:
-      - nginx:
-        - example.com
-        - example.net
-        - "www.example.com":
-            tls-acme: true
-            insecure: Redirect
-            hstsEnabled: true
-        - "example.ch":
-            annotations:
-              nginx.ingress.kubernetes.io/permanent-redirect: https://www.example.ch$request_uri
-        - www.example.ch
-    types:
-      mariadb: mariadb
-    templates:
-      mariadb: mariadb.main.deployment.yml
-    rollouts:
-      mariadb: statefulset

@@ -1,12 +1,7 @@
 x-lagoon-project:
   # Lagoon project name (leave `&lagoon-project` when you edit this)
-  &lagoon-project drupal-example
+  &lagoon-project myproject
 
-x-volumes:
-  &default-volumes
-    # Define all volumes you would like to have real-time mounted into the docker containers
-    volumes:
-      - .:/app:delegated
 
 x-environment:
   &default-environment
@@ -26,20 +21,9 @@ x-user:
 services:
 
   nginx:
-    build:
-      context: .
-      dockerfile: nginx.dockerfile
+    image: uselagoon/nginx
     labels:
       lagoon.type: nginx-php-persistent # (1)
-      lagoon.persistent: /app/web/sites/default/files/
-
-  php:
-    build:
-      context: .
-      dockerfile: php.dockerfile
-    labels:
-      lagoon.type: nginx-php-persistent # (2)
-      lagoon.name: nginx
       lagoon.persistent: /app/web/sites/default/files/
 
   mariadb:
