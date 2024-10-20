@@ -16,5 +16,4 @@ services:
   nginx:
     image: uselagoon/nginx
     labels:
-      lagoon.type: nginx-php-persistent # (1)
-      lagoon.persistent: /app/web/sites/default/files/
+      lagoon.type: nginx
