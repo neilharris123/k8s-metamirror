@@ -13,14 +13,8 @@ x-user:
     user: '1000'
 
 services:
-
   nginx:
     image: uselagoon/nginx
     labels:
       lagoon.type: nginx-php-persistent # (1)
       lagoon.persistent: /app/web/sites/default/files/
-
-  mariadb:
-    image: uselagoon/mariadb-10.11-drupal
-    labels:
-      lagoon.type: mariadb
